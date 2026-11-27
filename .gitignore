@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+!.env.emulator
+# Never commit credentials
+*serviceAccount*.json
+*service-account*.json
+*-firebase-adminsdk-*.json
+.firebase/
+.firebaserc
+.DS_Store
+.claude/

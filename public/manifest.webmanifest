@@ -1,0 +1,9 @@
+{
+  "name": "HybridCart AI",
+  "short_name": "HybridCart",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F2F4F3",
+  "theme_color": "#1F2A30",
+  "icons": [{ "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" }]
+}

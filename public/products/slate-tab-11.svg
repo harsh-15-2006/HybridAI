@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Kite Tab 11, tablet">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#5e6468"/><stop offset=".35" stop-color="#363d42"/>
+      <stop offset=".62" stop-color="#282f34"/><stop offset="1" stop-color="#181c1f"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#525659"/><stop offset=".35" stop-color="#262c30"/>
+      <stop offset=".62" stop-color="#191e22"/><stop offset="1" stop-color="#0f1214"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#799ba0"/><stop offset=".35" stop-color="#588388"/>
+      <stop offset=".62" stop-color="#497278"/><stop offset="1" stop-color="#2b4448"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><rect x="250" y="140" width="300" height="370" rx="30" fill="url(#m0)"/><rect x="266" y="158" width="268" height="334" rx="14" fill="url(#m2)"/>
+        <circle cx="400" cy="290" r="64" fill="#fff" opacity=".2"/><path d="M266 440l110-90 70 58 88-70v140a14 14 0 01-14 14H280a14 14 0 01-14-14z" fill="#fff" opacity=".16"/></g>
+</svg>

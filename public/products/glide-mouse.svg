@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Glide Mouse, wireless mouse">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#697175"/><stop offset=".35" stop-color="#444d52"/>
+      <stop offset=".62" stop-color="#353f43"/><stop offset="1" stop-color="#202528"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#5a6063"/><stop offset=".35" stop-color="#31383c"/>
+      <stop offset=".62" stop-color="#232a2e"/><stop offset="1" stop-color="#15191c"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#aac5d1"/><stop offset=".35" stop-color="#95b7c5"/>
+      <stop offset=".62" stop-color="#84a5b2"/><stop offset="1" stop-color="#4f626b"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><path d="M300 300c0-90 45-130 100-130s100 40 100 130v90c0 75-45 115-100 115s-100-40-100-115z" fill="url(#m0)"/>
+        <path d="M400 172v128M302 300h196" stroke="url(#m1)" stroke-width="7"/><rect x="386" y="212" width="28" height="60" rx="14" fill="url(#m2)"/></g>
+</svg>

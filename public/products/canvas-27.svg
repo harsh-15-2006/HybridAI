@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Canvas 27, monitor">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#757c80"/><stop offset=".35" stop-color="#535b60"/>
+      <stop offset=".62" stop-color="#444b51"/><stop offset="1" stop-color="#292d30"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#5e6468"/><stop offset=".35" stop-color="#363d42"/>
+      <stop offset=".62" stop-color="#282f34"/><stop offset="1" stop-color="#181c1f"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#778e9a"/><stop offset=".35" stop-color="#557181"/>
+      <stop offset=".62" stop-color="#466270"/><stop offset="1" stop-color="#2a3a43"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><rect x="145" y="140" width="510" height="300" rx="18" fill="url(#m1)"/><rect x="160" y="155" width="480" height="270" rx="6" fill="url(#m2)"/>
+        <path d="M160 425l210-160 90 70 70-52 110 90v52z" fill="#fff" opacity=".18"/><rect x="375" y="440" width="50" height="52" fill="url(#m0)"/><rect x="300" y="488" width="200" height="18" rx="9" fill="url(#m0)"/></g>
+</svg>

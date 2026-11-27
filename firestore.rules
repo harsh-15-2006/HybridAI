@@ -1,0 +1,192 @@
+rules_version = '2';
+
+// HybridCart Security Rules. Default deny. All money is integer cents.
+// Order placement happens on the client in one transaction, so these rules re-check
+// prices, totals, shipping and every stock decrease. Orders are capped at 5 lines
+// because rules cannot loop.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && request.auth.token.get('admin', false) == true; }
+    function docPath(col, id) { return /databases/$(database)/documents/$(col)/$(id); }
+    function text(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
+    function ownOrder(orderId) {
+      return exists(docPath('orders', orderId)) && get(docPath('orders', orderId)).data.uid == request.auth.uid;
+    }
+    function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || shopperStockDecrease(productId);
+
+      // A shopper may only lower stock by exactly what a new order of theirs contains.
+      function shopperStockDecrease(productId) {
+        return signedIn()
+          && changed().hasOnly(['stock', 'lastOrderId'])
+          && request.resource.data.stock is int
+          && request.resource.data.stock >= 0
+          && request.resource.data.stock < resource.data.stock
+          && !exists(docPath('orders', request.resource.data.lastOrderId))
+          && getAfter(docPath('orders', request.resource.data.lastOrderId)).data.uid == request.auth.uid
+          && getAfter(docPath('orders', request.resource.data.lastOrderId)).data.quantities[productId]
+               == resource.data.stock - request.resource.data.stock;
+      }
+
+      match /reviews/{reviewId} {
+        allow get: if isAdmin() || (signedIn() && reviewId == request.auth.uid)
+                      || resource.data.status == 'published';
+        allow list: if isAdmin() || resource.data.status == 'published';
+        allow create: if signedIn()
+          && reviewId == request.auth.uid
+          && request.resource.data.keys().hasOnly(['uid', 'productId', 'orderId', 'rating', 'text', 'status',
+                                                   'aiSuggestion', 'aiReason', 'moderatedBy', 'sample', 'createdAtMs'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.productId == productId
+          && request.resource.data.status == 'pending'
+          && request.resource.data.aiSuggestion == null
+          && request.resource.data.aiReason == null
+          && request.resource.data.moderatedBy == null
+          && request.resource.data.sample == false
+          && request.resource.data.createdAtMs is int
+          && request.resource.data.rating is int
+          && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+          && text(request.resource.data.text, 1000)
+          && ownOrder(request.resource.data.orderId)
+          && get(docPath('orders', request.resource.data.orderId)).data.status == 'delivered'
+          && productId in get(docPath('orders', request.resource.data.orderId)).data.quantities;
+        allow update: if isAdmin() && changed().hasOnly(['status', 'aiSuggestion', 'aiReason', 'moderatedBy']);
+        allow delete: if isAdmin();
+      }
+    }
+
+    // Collection-group query used by the moderation queue.
+    match /{path=**}/reviews/{reviewId} {
+      allow read: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn() && validNewOrder(orderId, request.resource.data);
+      allow update: if isAdmin()
+        && changed().hasOnly(['status', 'statusHistory', 'deliveredAtMs'])
+        && validTransition(resource.data.status, request.resource.data.status)
+        && request.resource.data.statusHistory.size() == resource.data.statusHistory.size() + 1;
+      allow delete: if false;
+
+      function validTransition(from, to) {
+        return (from == 'placed' && (to == 'packed' || to == 'cancelled'))
+          || (from == 'packed' && to == 'shipped')
+          || (from == 'shipped' && to == 'delivered');
+      }
+
+      function validNewOrder(orderId, d) {
+        return d.keys().hasOnly(['uid', 'items', 'quantities', 'subtotalCents', 'shipping', 'totalCents', 'address',
+                                 'payment', 'status', 'statusHistory', 'createdAtMs', 'deliveredAtMs'])
+          && d.uid == request.auth.uid
+          && d.status == 'placed'
+          && d.deliveredAtMs == null
+          && d.payment == { 'provider': 'simulated', 'status': 'simulated_ok' }
+          && d.statusHistory.size() == 1
+          && d.statusHistory[0].status == 'placed'
+          && d.statusHistory[0].by == 'shopper'
+          && d.createdAtMs is int
+          && d.createdAtMs > request.time.toMillis() - 86400000
+          && d.createdAtMs < request.time.toMillis() + 86400000
+          && validAddress(d.address)
+          && d.items.size() >= 1 && d.items.size() <= 5
+          && d.quantities.size() == d.items.size()
+          && distinctProducts(d.items)
+          && (d.items.size() < 1 || validLine(orderId, d, d.items[0]))
+          && (d.items.size() < 2 || validLine(orderId, d, d.items[1]))
+          && (d.items.size() < 3 || validLine(orderId, d, d.items[2]))
+          && (d.items.size() < 4 || validLine(orderId, d, d.items[3]))
+          && (d.items.size() < 5 || validLine(orderId, d, d.items[4]))
+          && d.subtotalCents == lineTotal(d.items, 0) + lineTotal(d.items, 1) + lineTotal(d.items, 2)
+                                + lineTotal(d.items, 3) + lineTotal(d.items, 4)
+          && validShipping(d.shipping)
+          && d.totalCents == d.subtotalCents + d.shipping.priceCents;
+      }
+
+      function validAddress(a) {
+        return a.keys().hasOnly(['name', 'line1', 'city', 'region', 'postalCode', 'country'])
+          && text(a.name, 80) && text(a.line1, 120) && text(a.city, 60)
+          && a.region is string && a.region.size() <= 60
+          && text(a.postalCode, 20) && text(a.country, 60);
+      }
+
+      function distinctProducts(items) {
+        return (items.size() < 2 || items[1].productId != items[0].productId)
+          && (items.size() < 3 || (items[2].productId != items[0].productId && items[2].productId != items[1].productId))
+          && (items.size() < 4 || (items[3].productId != items[0].productId && items[3].productId != items[1].productId
+                                   && items[3].productId != items[2].productId))
+          && (items.size() < 5 || (items[4].productId != items[0].productId && items[4].productId != items[1].productId
+                                   && items[4].productId != items[2].productId && items[4].productId != items[3].productId));
+      }
+
+      // The matching product must be written in the same commit (its own rule checks the decrease),
+      // and the line must use the catalogue price.
+      function validLine(orderId, d, item) {
+        let product = getAfter(docPath('products', item.productId)).data;
+        return item.keys().hasOnly(['productId', 'name', 'qty', 'unitPriceCents'])
+          && item.qty is int && item.qty >= 1 && item.qty <= 5
+          && d.quantities[item.productId] == item.qty
+          && product.lastOrderId == orderId
+          && product.priceCents == item.unitPriceCents
+          && product.name == item.name;
+      }
+
+      function lineTotal(items, i) {
+        return items.size() > i ? items[i].unitPriceCents * items[i].qty : 0;
+      }
+
+      function validShipping(s) {
+        let option = get(docPath('config', 'shipping')).data.options[s.optionId];
+        return s.keys().hasOnly(['optionId', 'priceCents', 'label', 'minDays', 'maxDays'])
+          && s.priceCents == option.priceCents && s.label == option.label
+          && s.minDays == option.minDays && s.maxDays == option.maxDays;
+      }
+    }
+
+    // One return per order: the document id is the order id.
+    match /returns/{returnId} {
+      allow get: if isAdmin() || (signedIn() && (resource == null || resource.data.uid == request.auth.uid));
+      allow list: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['orderId', 'uid', 'reason', 'status', 'createdAtMs'])
+        && request.resource.data.orderId == returnId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'requested'
+        && request.resource.data.createdAtMs is int
+        && text(request.resource.data.reason, 500)
+        && ownOrder(returnId)
+        && get(docPath('orders', returnId)).data.status == 'delivered'
+        && request.time.toMillis() <= get(docPath('orders', returnId)).data.deliveredAtMs
+             + get(docPath('config', 'store')).data.returnWindowDays * 86400000;
+      allow update: if isAdmin() && changed().hasOnly(['status'])
+        && ((resource.data.status == 'requested' && request.resource.data.status in ['approved', 'rejected'])
+            || (resource.data.status == 'approved' && request.resource.data.status == 'refunded_simulated'));
+      allow delete: if false;
+    }
+
+    match /supportTickets/{ticketId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['uid', 'orderId', 'message', 'replies', 'status', 'createdAtMs'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'open'
+        && request.resource.data.replies == []
+        && request.resource.data.createdAtMs is int
+        && text(request.resource.data.message, 1000)
+        && (request.resource.data.orderId == null || ownOrder(request.resource.data.orderId));
+      allow update: if isAdmin() && changed().hasOnly(['replies', 'status']);
+      allow delete: if false;
+    }
+
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

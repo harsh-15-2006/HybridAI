@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Tempo Watch, smart watch">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#616b71"/><stop offset=".35" stop-color="#39464d"/>
+      <stop offset=".62" stop-color="#2b373f"/><stop offset="1" stop-color="#1a2125"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#555d62"/><stop offset=".35" stop-color="#2a353a"/>
+      <stop offset=".62" stop-color="#1d272c"/><stop offset="1" stop-color="#11171a"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#799ba0"/><stop offset=".35" stop-color="#588388"/>
+      <stop offset=".62" stop-color="#497278"/><stop offset="1" stop-color="#2b4448"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><rect x="352" y="95" width="96" height="130" rx="30" fill="url(#m1)"/><rect x="352" y="385" width="96" height="125" rx="30" fill="url(#m1)"/>
+        <circle cx="400" cy="305" r="112" fill="url(#m0)"/><circle cx="400" cy="305" r="88" fill="url(#m2)"/><path d="M400 250v55l40 24" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></g>
+</svg>

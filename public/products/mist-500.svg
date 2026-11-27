@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Mistral 500, humidifier">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#f3eee7"/><stop offset=".35" stop-color="#f0eae2"/>
+      <stop offset=".62" stop-color="#dcd6ce"/><stop offset="1" stop-color="#83807b"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#e1d9cd"/><stop offset=".35" stop-color="#dad0c0"/>
+      <stop offset=".62" stop-color="#c7bdae"/><stop offset="1" stop-color="#777168"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#8fa6b2"/><stop offset=".35" stop-color="#73909f"/>
+      <stop offset=".62" stop-color="#637f8e"/><stop offset="1" stop-color="#3b4c55"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><path d="M295 250h210l-18 235a28 28 0 01-28 25H341a28 28 0 01-28-25z" fill="url(#m0)"/><rect x="305" y="215" width="190" height="45" rx="22" fill="url(#m1)"/>
+        <rect x="370" y="330" width="60" height="120" rx="14" fill="url(#m2)" opacity=".55"/>
+        <path d="M390 200c-30-35 25-50 0-95M425 200c28-30-18-48 8-80" fill="none" stroke="url(#m2)" stroke-width="10" stroke-linecap="round" opacity=".7"/></g>
+</svg>

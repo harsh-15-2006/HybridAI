@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Drift Tower, tower fan">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#697175"/><stop offset=".35" stop-color="#444d52"/>
+      <stop offset=".62" stop-color="#353f43"/><stop offset="1" stop-color="#202528"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#5a6063"/><stop offset=".35" stop-color="#31383c"/>
+      <stop offset=".62" stop-color="#232a2e"/><stop offset="1" stop-color="#15191c"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#c1c9cc"/><stop offset=".35" stop-color="#b2bcbf"/>
+      <stop offset=".62" stop-color="#a0a9ad"/><stop offset="1" stop-color="#606567"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><rect x="345" y="120" width="110" height="370" rx="52" fill="url(#m0)"/><rect x="368" y="160" width="64" height="270" rx="30" fill="url(#m1)"/>
+        <path d="M374 178h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 197h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 216h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 235h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 254h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 273h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 292h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 311h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 330h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 349h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 368h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 387h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/><path d="M374 406h52" stroke="url(#m2)" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="400" cy="495" rx="110" ry="20" fill="url(#m1)"/></g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of Strata Air Pro, over-ear headphones">
+  <defs>
+    <radialGradient id="room" cx=".38" cy=".28" r=".95"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9EDEB"/><stop offset="1" stop-color="#CDD3D0"/></radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CFCC" stop-opacity="0"/><stop offset="1" stop-color="#C3CAC6" stop-opacity=".75"/></linearGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#1F2A30" stop-opacity=".45"/><stop offset="1" stop-color="#1F2A30" stop-opacity="0"/></radialGradient>
+    <filter id="depth" x="-30%" y="-30%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+      <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="60" lighting-color="#ffffff" result="shine">
+        <feDistantLight azimuth="225" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="shine" in2="SourceAlpha" operator="in" result="gloss"/>
+      <feDropShadow in="SourceGraphic" dx="10" dy="18" stdDeviation="14" flood-color="#1F2A30" flood-opacity=".28" result="cast"/>
+      <feMerge><feMergeNode in="cast"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <linearGradient id="m0" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#6a6d7c"/><stop offset=".35" stop-color="#45495b"/>
+      <stop offset=".62" stop-color="#363a4b"/><stop offset="1" stop-color="#20232d"/></linearGradient><linearGradient id="m1" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#5d5f6b"/><stop offset=".35" stop-color="#353846"/>
+      <stop offset=".62" stop-color="#272937"/><stop offset="1" stop-color="#171921"/></linearGradient><linearGradient id="m2" gradientUnits="userSpaceOnUse" x1="180" y1="110" x2="620" y2="520">
+      <stop offset="0" stop-color="#a8adc5"/><stop offset=".35" stop-color="#9298b7"/>
+      <stop offset=".62" stop-color="#8187a5"/><stop offset="1" stop-color="#4d5162"/></linearGradient>
+  </defs>
+  <ellipse cx="408" cy="520" rx="250" ry="34" fill="url(#shadow)"/>
+  <g filter="url(#depth)"><path d="M245 345v-60a155 155 0 01310 0v60" fill="none" stroke="url(#m0)" stroke-width="30" stroke-linecap="round"/>
+        <rect x="205" y="300" width="105" height="165" rx="48" fill="url(#m0)"/><rect x="490" y="300" width="105" height="165" rx="48" fill="url(#m0)"/>
+        <rect x="290" y="318" width="38" height="130" rx="19" fill="url(#m2)"/><rect x="472" y="318" width="38" height="130" rx="19" fill="url(#m2)"/>
+        <circle cx="248" cy="382" r="22" fill="url(#m1)"/><circle cx="552" cy="382" r="22" fill="url(#m1)"/></g>
+</svg>
